@@ -1,0 +1,204 @@
+\documentclass[a4paper]{article}
+\input{header}
+\begin{document}
+\input{title}
+\tableofcontents
+\addtocontents{toc}{~\hfill\textbf{Страница}\par}
+\newpage
+\listoffigures
+\addtocontents{lof}{~\hfill\textbf{Страница}\par}
+\newpage
+\listoftables
+\addtocontents{lot}{~\hfill\textbf{Страница}\par}
+\newpage
+\section{Постановка задачи}
+Для 5 распределений:
+\begin{itemize}
+    \item Нормальное распределение $N(x, 0, 1)$
+    \item Распределение Коши $C(x, 0, 1)$
+    \item Распределение Лапласа $L(x, 0, \frac{1}{\sqrt{2}})$
+    \item Распределение Пуассона $P(k, 10)$
+    \item Равномерное распределение $U(x,-\sqrt{3},\sqrt{3})$
+\end{itemize}
+\begin{enumerate}
+    \item Сгенерировать выборки размером 10, 50 и 1000 элементов. Построить на одном рисунке гистограмму и график плотности распределения.
+    \item Сгенерировать выборки размером 10, 100 и 1000 элементов.
+    Для каждой выборки вычислить следующие статистические характеристики положения данных: $\overline{x}, med\,x, z_R, z_Q, z_{tr}$. Повторить такие вычисления 1000 раз для каждой выборки и найти среднее характеристик положения и их квадратов:
+    \begin{equation}\label{mean_formula}
+        E(z)=\overline{z}
+    \end{equation}
+    Вычислить оценку дисперсии по формуле:
+    \begin{equation}\label{variance_formula}
+        D(z)=\overline{z^2}-\overline{z}^2
+    \end{equation}
+    Представить полученные данные в виде таблиц.
+\end{enumerate}
+\section{Теория}
+\subsection{Рассматриваемые распределения}
+Плотности:
+\begin{itemize}
+    \item Нормальное распределение
+    \begin{equation}\label{norm}
+        N(x,0,1)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}
+    \end{equation}
+    \item Распределение Коши
+    \begin{equation}\label{cauchy}
+        C(x, 0, 1)=\frac{1}{\pi}\frac{1}{x^2+1}
+    \end{equation}
+    \item Распределение Лапласа
+    \begin{equation}\label{laplace}
+        L(x,0,\frac{1}{\sqrt{2}})=\frac{1}{\sqrt{2}}e^{-\sqrt{2}|x|}
+    \end{equation}
+    \item Распределение Пуассона
+    \begin{equation}\label{poisson}
+        P(k, 10)=\frac{10^k}{k!}e^{-10}
+    \end{equation}
+    \item Равномерное распределение
+    \begin{equation}\label{uniform}
+        U(x,-\sqrt{3},\sqrt{3})=
+        \begin{cases}
+        \displaystyle\frac{1}{2\sqrt{3}}&\text{при}\;\;|x|\:\leq\sqrt{3}\\
+        \;\;\;0&\text{при}\;\;|x|\:>\sqrt{3}\\
+        \end{cases}
+    \end{equation}
+\end{itemize}
+\subsection{Гистограмма}
+\subsubsection{Построение гистограммы}
+Множество значений, которое может принимать элемент выборки, разбивается на несколько одинаковых интервалов, откладываемых на горизонтальной оси, над каждым из которых затем рисуется прямоугольник. Высота каждого прямоугольника пропорциональна числу элементов выборки, попадающих в соответствующий интервал. 
+\subsection{Вариационный ряд}
+Последовательность $\displaystyle\{x_{(k)}\}_{k=1}^n$ элементов выборки размера $n$, расположенных в неубывающем порядке, называется вариационным рядом.
+\subsection{Выборочные числовые характеристики}
+\subsubsection{Характеристики положения}
+\begin{itemize}
+    \item Выборочное среднее
+    \begin{equation}\label{mean}
+        \overline{x}=\frac{1}{n}\sum_{i=1}^n x_i
+    \end{equation}
+    \item Выборочная медиана
+    \begin{equation}\label{med}
+        med\,x = \begin{cases}
+        \displaystyle\;\;\;\;\;x_{(l+1)}&\text{при}\;\;n=2l+1\\
+        \displaystyle\frac{x_{(l)}+x_{(l+1)}}{2}&\text{при}\;\;n=2l
+        \end{cases}
+    \end{equation}
+    \item Полусумма экстремальных выборочных элементов
+    \begin{equation}\label{exhfsum}
+        z_R=\frac{x_{(1)}+x_{(n)}}{2}
+    \end{equation}
+    \item Полусумма квартилей\\
+    Выборочный квартиль $z_p$ порядка $p$ определяется формулой
+    \begin{equation}
+        z_p = \begin{cases}\label{pqv}
+        \displaystyle\;\;x_{([np]+1)}&\text{при}\;\;np\;\text{дробном,}\\
+        \displaystyle\;\;\;\;\;x_{(np)}&\text{при}\;\;np\;\text{целом}
+        \end{cases}
+    \end{equation}
+    Полусумма квартилей
+    \begin{equation}\label{hfsum}
+        z_Q=\frac{z_{1/4}+z_{3/4}}{2}
+    \end{equation}
+    \item Усечённое среднее
+    \begin{equation}\label{trmean}
+        z_{tr}=\frac{1}{n-2r}\sum_{i=r+1}^{n-r}x_{(i)},\;\;r\approx\frac{n}{4}
+    \end{equation}
+\end{itemize}
+\subsubsection{Характеристики рассеивания}
+Выборочная дисперсия
+\begin{equation}\label{svar}
+    D=\frac{1}{n}\sum_{i=1}^n \left(x_i-\overline{x}\right)^2
+\end{equation}
+\section{Реализация}
+Лабораторная работа выполнена на языке Python в средах PyCharm и Jupyter Notebook с использованием следующих библиотек:
+\begin{enumerate}
+    \item scipay (генерация выборок)
+    \item matplotlib, seaborn (визуализация, построение гистограмм)
+    \item numpy (вычисление ряда числовых характеристик)
+\end{enumerate}
+\section{Результаты}
+\subsection{Гистограммы и графики плотности распределения}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16 cm]{sources/normalNumbers.pdf}
+    \caption{Нормальное распределение \eqref{norm}}
+    \label{fig:norm}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16 cm]{sources/cauchyNumbers.pdf}
+    \caption{Распределение Коши \eqref{cauchy}}
+    \label{fig:cauchy}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16 cm]{sources/laplaceNumbers.pdf}
+    \caption{Распределение Лапласа \eqref{laplace}}
+    \label{fig:laplace}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16 cm]{sources/poissonNumbers.pdf}
+    \caption{Распределение Пуассона \eqref{poisson}}
+    \label{fig:poisson}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 16 cm]{sources/uniformNumbers.pdf}
+    \caption{Равномерное распределение \eqref{uniform}}
+    \label{fig:uniform}
+\end{figure}
+\subsection{Характеристики положения и рассеивания}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \input{sources/normalChs}
+    \end{tabular}
+    \caption{Нормальное распределение \eqref{norm}}
+    \label{tab:norm}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \input{sources/cauchyChs}
+    \end{tabular}
+    \caption{Распределение Коши \eqref{cauchy}}
+    \label{tab:cauchy}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \input{sources/laplaceChs}
+    \end{tabular}
+    \caption{Распределение Лапласа \eqref{laplace}}
+    \label{tab:laplace}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \input{sources/poissonChs}
+    \end{tabular}
+    \caption{Распределение Пуассона \eqref{poisson}}
+    \label{tab:poisson}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \input{sources/uniformChs}
+    \end{tabular}
+    \caption{Равномерное распределение \eqref{uniform}}
+    \label{tab:uniform}
+\end{table}
+\section{Обсуждение}
+\subsection{Гистограмма и график плотности распределения}
+Результаты проделанной работы указывают на то, что для каждого из распределений справедливо следующее замечание: при увеличении количества элементов выборки ее гистограмма становится ближе к графику плотности вероятности того закона, по которому распределены эти элементы. Чем меньше выборка, тем менее она репрезентативна и тем хуже по ней определяется характер распределения исследуемой величины.\\
+\\
+В большинстве случаев максимумы гистограмм и плотностей распределения не совпали. В некоторых местах прослеживаются всплески гистограмм, наиболее отчетливо - на распределении Коши.
+\subsection{Характеристики положения и рассеяния}
+В полученных данных, приведенных в таблице, особый интерес представляет дисперсия характеристик рассеяния для распределения Коши, чьи значения можно назвать аномально большими. Ясно, что это результат выбросов, которые можно было наблюдать в результатах предыдущего задания.
+\section*{Примечание}
+С кодом работы и отчета можно ознакомиться по ссылке:\;\url{https://github.com/Kozlov992/MS2021/tree/master/Labs1-2}
+\end{document}
