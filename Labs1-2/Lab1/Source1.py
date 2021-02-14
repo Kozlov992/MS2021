@@ -66,6 +66,7 @@ def laplace_numbers():
     fig.savefig("laplaceNumbers.pdf")
     fig.show()
 
+    
 def poisson_numbers():
     bins_num = [8, 12, 20]
     default_right_boundary = 10
@@ -84,6 +85,7 @@ def poisson_numbers():
     fig.savefig("poissonNumbers.pdf")
     fig.show()
 
+    
 def uniform_numbers():
     bins_num = [8, 12, 30]
     fig, axs = plt.subplots(len(units))
@@ -98,3 +100,5 @@ def uniform_numbers():
     fig.subplots_adjust(hspace=0.75)
     fig.savefig("uniformNumbers.pdf")
     fig.show()
+    
+    
